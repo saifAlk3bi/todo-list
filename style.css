@@ -1,0 +1,123 @@
+*{
+    padding: 0; margin: 0;
+    box-sizing: border-box;
+    font-family: system-ui;
+}
+header{
+    height: 10vh;
+    
+}
+header h1{
+margin-left: 2rem;
+}
+header h1 a{
+    font-size: 1rem;
+    color: #000;
+    text-decoration: none;
+}
+.container {
+    width: 100vw; height: 90vh;
+    display: flex;
+}
+.sidebar {
+    border: 1px solid black;
+    margin-left: 1rem;
+    width: 16rem;
+    height: 100%;
+}
+.add-task-tab,
+.today-tasks-tab,
+.week-tasks-tab,
+.all-taks-tab{
+    padding: 1rem 1.4rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+.add-task-tab:hover,
+.today-tasks-tab:hover,
+.week-tasks-tab:hover,
+.all-taks-tab:hover {
+    background-color: gray;
+}
+.sidebar .tab i {
+    margin-right: .5rem;
+}
+
+ .add-new-project {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: .5rem;
+    margin-top: 3rem;
+}
+.add-new-project span,
+.projects .add-new-project i {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+.main {
+    width: 100%;
+    height: 100%;
+    border: 1px solid black;
+}
+.projects .project {
+    margin: 0 1rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+}
+.projects .project:hover{
+    text-decoration: underline;
+}
+
+
+.add-new-task-form,
+.add-project-form{
+    position: fixed;
+    top: 20%;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 10;    
+}
+.add-new-task-form form,
+.add-project-form form {
+    display: flex;
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: baseline;
+    flex-direction: column;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding: 3%;
+    border-radius: 20px;
+}
+.add-new-task-form form div,
+.add-project-form form div {
+    margin-bottom: 1rem;
+}
+.add-task-btn,
+.task-form-cancle,
+.add-project-btn,
+.project-form-cancle {
+    font-size: .9rem;
+    font-weight: 500;
+    padding: .5rem;
+    border-radius: 1rem;
+    color:#fff;
+    border: none; outline: none;
+    cursor: pointer;
+}
+.task-form-cancle,
+.project-form-cancle {
+ background-color: #dc2626;
+}
+.add-task-btn,
+.add-project-btn {
+background-color: #0284c7;
+}
+.task {
+    padding: 1rem;
+    border: 1px solid black;
+}

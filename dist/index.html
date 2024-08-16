@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo list</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1>Todo List 
+            <a id="author" href="https://github.com/saifAlk3bi" target="_blank">by:Saif Alkaabi</a> 
+            <a id="source-code" href="https://github.com/saifAlk3bi/todo-list" target="_blank"> Source code</a></h1> 
+    </header>
+    <div class="container">
+        <div class="sidebar">
+            <div class="add-task-tab">
+                <i class="fa-solid fa-circle-plus"></i>
+                <span id="add-task-tab">Add new task</span>
+            </div>
+            <div class="today-tasks-tab">
+                <i class="fa-solid fa-calendar-day"></i>
+                <span id="today-tasks-tab">Today tasks</span>
+            </div>
+            <div class="week-tasks-tab">
+                <i class="fa-solid fa-calendar-week"></i>
+                <span id="week-tasks-tab">This week tasks</span>
+            </div>
+            <div class="all-taks-tab">
+                <i class="fa-solid fa-calendar-days"></i>
+                <span id="all-tasks-tab">All tasks</span>
+            </div>
+                <div class="add-new-project">
+                    <span id="add-new-project-text">Add new Project</span>
+                    <i class="fa-solid fa-plus"></i>
+            </div>
+            <div class="projects">
+                <div class="project">
+                </div>
+            </div>
+        </div>
+
+<div class="add-new-task-form" style="display: none;">
+    <form action="">
+    <h4>Add task</h4>
+    <div class="title">
+        <label for="">Title:</label>
+        <input type="text" id="title"> 
+    </div>
+    <div class="description">
+        <label for="">Description:</label>
+        <input type="text" id="description">
+    </div>
+    <div class="date">
+        <label for="">Due Date:</label>
+        <input type="date">
+    </div>
+    <div class="priority">
+        <label for="">priority:</label>
+    <select name="priority" id="priority">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+    </select>
+    </div>
+
+
+    
+    <div class="project">
+        <label for="project">Project:</label>
+    <select class="add-task__projects" name="project" id="project-select">
+    </select>
+    </div>
+    <div class="btns">
+    <input type="button" class="add-task-btn" value="Add Task">
+    <button type="button" class="task-form-cancle">Cancle</button>
+</div>
+</form>
+</div>
+
+<div class="add-project-form" style="display: none;">
+    <form action="">
+        <div>
+        <h4>Add Project</h4>
+        <input type="text" id="project-name">
+        </div>
+        <div class="btn">
+        <input type="button" class="add-project-btn" value="Add Project">
+        <button type="button" class="project-form-cancle">Cancle</button>  
+        </div>
+    </form>
+    
+</div>
+        <div class="main"></div>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>
