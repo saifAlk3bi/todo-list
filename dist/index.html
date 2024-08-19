@@ -54,7 +54,7 @@
     </div>
     <div class="date">
         <label for="">Due Date:</label>
-        <input type="date">
+        <input type="date" id="date">
     </div>
     <div class="priority">
         <label for="">priority:</label>
@@ -92,6 +92,43 @@
     </form>
     
 </div>
+
+
+<div class="edit-form" style="display: none;">
+    <form action="">
+        <h4>Edit task</h4>
+        <div class="title">
+            <label for="">Title:</label>
+            <input type="text" id="edit-title">
+        </div>
+        <div class="description">
+            <label for="">Description:</label>
+            <input type="text" id="edit-description">
+        </div>
+        <div class="date">
+            <label for="">Due Date:</label>
+            <input type="date" id="edit-date">
+        </div>
+        <div class="priority">
+            <label for="">Priority:</label>
+            <select name="priority" id="edit-priority">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+        </div>
+        <div class="project">
+            <label for="project">Project:</label>
+            <select class="add-task__projects" name="project" id="project-select">
+            </select>
+        </div>
+        <div class="btns">
+            <input type="button" class="save-edit-btn" value="Save Task">
+            <button type="button" class="task-edit-cancle">Cancel</button>
+        </div>
+    </form>
+</div>
+
         <div class="main"></div>
     </div>
     <script src="main.js"></script>

@@ -20,7 +20,6 @@ header h1 a{
     display: flex;
 }
 .sidebar {
-    border: 1px solid black;
     margin-left: 1rem;
     width: 16rem;
     height: 100%;
@@ -55,11 +54,6 @@ header h1 a{
     font-size: 1.2rem;
     font-weight: bold;
 }
-.main {
-    width: 100%;
-    height: 100%;
-    border: 1px solid black;
-}
 .projects .project {
     margin: 0 1rem;
     font-size: 1.2rem;
@@ -73,7 +67,8 @@ header h1 a{
 
 
 .add-new-task-form,
-.add-project-form{
+.add-project-form,
+.edit-form{
     position: fixed;
     top: 20%;
     left: 0;
@@ -82,7 +77,8 @@ header h1 a{
     z-index: 10;    
 }
 .add-new-task-form form,
-.add-project-form form {
+.add-project-form form,
+.edit-form form {
     display: flex;
     max-width: fit-content;
     margin-left: auto;
@@ -94,13 +90,17 @@ header h1 a{
     border-radius: 20px;
 }
 .add-new-task-form form div,
-.add-project-form form div {
+.add-project-form form div,
+.edit-form form div {
     margin-bottom: 1rem;
 }
 .add-task-btn,
 .task-form-cancle,
 .add-project-btn,
-.project-form-cancle {
+.project-form-cancle,
+.save-edit-btn,
+.task-edit-cancle
+ {
     font-size: .9rem;
     font-weight: 500;
     padding: .5rem;
@@ -110,14 +110,87 @@ header h1 a{
     cursor: pointer;
 }
 .task-form-cancle,
-.project-form-cancle {
+.project-form-cancle,
+.task-edit-cancle {
  background-color: #dc2626;
 }
 .add-task-btn,
-.add-project-btn {
+.add-project-btn,
+.save-edit-btn {
 background-color: #0284c7;
 }
+.main {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    width: 100%;
+    border-left: 2px solid #000;
+}
+
 .task {
-    padding: 1rem;
     border: 1px solid black;
+    padding: 1rem;
+    border-radius: 1rem;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height:fit-content;
+    
+}
+
+.task:hover {
+    transform: translateY(-5px);
+    box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.2);
+}
+
+.task .content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.task .content .left-content {
+    margin-right: 1rem;
+    text-align: center;
+}
+
+.task .content .left-content input {
+    width: 20px;
+    height: 20px;
+    margin-bottom: 5px;
+}
+
+.task .content .left-content p {
+    font-size: 0.9rem;
+}
+
+.task .content .title h4 {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.task .content .title p {
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+.edit-btn,
+.delete-btn {
+    color: #fff;
+    font-size: 0.9rem;
+    border: none;
+    outline: none;
+    border-radius: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+}
+
+.edit-btn {
+    background-color: #facc15;
+}
+
+.delete-btn {
+    background-color: #ef4444;
+    margin-left: 0.5rem;
 }

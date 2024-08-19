@@ -7,7 +7,7 @@ import Storage from './module/storage.js';
 
 let projects = Storage.getProjects();
 
-projects = projects.map(projectData => { //he projects array is reassigned to a new array
+projects = projects.map(projectData => { //the projects array is reassigned to a new array
     // where each project is now an instance of the Project class instead of just a plain object.
     const project = new Project(projectData.title, projectData.id);
     project.tasks = projectData.tasks || []; 
@@ -17,10 +17,25 @@ projects = projects.map(projectData => { //he projects array is reassigned to a 
 dom()
 addProjectInSelector()
 addProjectInContainer()
+defultProject()
+
+function defultProject() {
+    if(projects.length == 0) {
+    const projectTitle = "Defult"
+    const newProject = createProject({ title: projectTitle, id: Date.now() });
+    
+    projects.push(newProject);
+    addProjectInSelector();
+    addProjectInContainer();
+
+
+    Storage.saveProjects(projects);
+    }
+}
 
 function renderTasks(tasks) {
     const mainContainer = document.querySelector('.main');
-    mainContainer.innerHTML = ''; // Clear the main container before rendering
+    mainContainer.innerHTML = ''; 
 
     if (tasks.length === 0) {
         mainContainer.innerHTML = '<p>No tasks to display.</p>';
@@ -30,160 +45,146 @@ function renderTasks(tasks) {
     tasks.forEach(task => {
         const taskDiv = document.createElement('div');
         taskDiv.classList.add('task');
-
-        // Create task title
-        const taskTitle = document.createElement('h4');
-        taskTitle.textContent = task.title;
-        taskDiv.appendChild(taskTitle);
-
-        // Create task description
-        const taskDescription = document.createElement('p');
-        taskDescription.textContent = `Description: ${task.description}`;
-        taskDiv.appendChild(taskDescription);
-
-        // Create task due date
-        const taskDueDate = document.createElement('p');
-        taskDueDate.textContent = `Due Date: ${task.dueDate}`;
-        taskDiv.appendChild(taskDueDate);
-
-        // Create task priority
-        const taskPriority = document.createElement('p');
-        taskPriority.textContent = `Priority: ${task.priority}`;
-        taskDiv.appendChild(taskPriority);
-
-        const editBtn = document.createElement('button')
-        editBtn.classList.add('edit-btn')
-        editBtn.textContent = "Edit"
-        taskDiv.appendChild(editBtn)
-
-        const deleteBtn = document.createElement('button')
-        deleteBtn.classList.add('delete-btn')
-        deleteBtn.textContent = "Detelte"
-        taskDiv.appendChild(deleteBtn)
-
-        // Append the taskDiv to the main container
         mainContainer.appendChild(taskDiv);
-    });
-}
 
+        if (task.priority == 1) {
+            taskDiv.style.boxShadow = '10px 5px 5px green';
+        } else if (task.priority == 2) {
+            taskDiv.style.boxShadow = '10px 5px 5px yellow';
+        } else if (task.priority == 3) {
+            taskDiv.style.boxShadow = '10px 5px 5px red';
+        }
 
-document.querySelector('.today-tasks-tab').addEventListener("click",() => {
-    // Step 1: Get today's date
-    const today = new Date().toISOString().split('T')[0]; // Format as YYYY-MM-DD
+        const contentDiv = document.createElement('div');
+        contentDiv.classList.add("content");
+        taskDiv.appendChild(contentDiv);
 
-    // Step 2: Find tasks that are due today
-    let todayTasks = [];
-    
-    projects.forEach(project => {
-        project.tasks.forEach(task => {
-            if (task.dueDate === today) {
-                todayTasks.push(task);
+        const leftContentDiv = document.createElement('div');
+        leftContentDiv.classList.add("left-content");
+        contentDiv.appendChild(leftContentDiv);
+
+        const checkBox = document.createElement('input');
+        checkBox.type = "checkbox";
+        checkBox.classList.add("check-box");
+        leftContentDiv.appendChild(checkBox);
+
+        checkBox.addEventListener('click', () => {
+            const project = projects.find(proj => proj.id == task.projectId);
+            if (project) {
+                project.tasks = project.tasks.filter(t => t.id !== task.id);
+                Storage.saveProjects(projects);
+                renderTasks(project.tasks);
             }
         });
-    });
 
-    // Step 3: Clear the main container (assuming you want to replace the current content)
-    const mainContainer = document.querySelector('.main');
-    mainContainer.innerHTML = ''; // Clear previous content
+        const dueDate = document.createElement("p");
+        dueDate.classList.add("due-date");
+        dueDate.textContent = task.dueDate;
+        leftContentDiv.appendChild(dueDate);
 
-    // Step 4: Render the tasks that are due today
-   if (todayTasks.length > 0) {
-    todayTasks.forEach((task, taskIndex) => {
-        const taskElement = document.createElement('div');
-        taskElement.classList.add('task');
-        taskElement.innerHTML = `
-            <h3>${task.title}</h3>
-            <p>${task.description}</p>
-            <p>Due: ${task.dueDate}</p>
-            <p>Priority: ${task.priority}</p>
-            <button class="edit-btn">Edit</button>
-            <button class="delete-btn">Delete</button>
-        `;
-        mainContainer.appendChild(taskElement);
+        const titleDiv = document.createElement('div');
+        titleDiv.classList.add("title");
+        contentDiv.appendChild(titleDiv);
 
-        // Edit button functionality
-        const editBtn = taskElement.querySelector('.edit-btn');
+        const title = document.createElement("h4");
+        title.textContent = task.title;
+        titleDiv.appendChild(title);
+
+        const description = document.createElement("p");
+        description.textContent = task.description;
+        titleDiv.appendChild(description);
+
+        const btnDiv = document.createElement('div');
+        btnDiv.classList.add("btn");
+        taskDiv.appendChild(btnDiv);
+
+        const editBtn = document.createElement('button');
+        editBtn.classList.add('edit-btn');
+        editBtn.textContent = "Edit";
+        btnDiv.appendChild(editBtn);
+
         editBtn.addEventListener('click', () => {
-            // Prompt the user to edit the task details
-            const newTitle = prompt("Edit task title:", task.title);
-            const newDescription = prompt("Edit task description:", task.description);
-            const newDueDate = prompt("Edit task due date (YYYY-MM-DD):", task.dueDate);
-            const newPriority = prompt("Edit task priority:", task.priority);
+            document.querySelector('#edit-title').value = task.title;
+            document.querySelector('#edit-description').value = task.description;
+            document.querySelector('#edit-date').value = task.dueDate;
+            document.querySelector('#edit-priority').value = task.priority;
 
-            // Update the task with new values if they are provided
-            if (newTitle) task.title = newTitle;
-            if (newDescription) task.description = newDescription;
-            if (newDueDate) task.dueDate = newDueDate;
-            if (newPriority) task.priority = newPriority;
+            document.querySelector('.edit-form').style.display = 'block';
 
-            // Save the updated projects array to local storage
-            Storage.saveProjects(projects);
+            document.querySelector('.save-edit-btn').onclick = () => {
+                task.title = document.querySelector('#edit-title').value;
+                task.description = document.querySelector('#edit-description').value;
+                task.dueDate = document.querySelector('#edit-date').value;
+                task.priority = document.querySelector('#edit-priority').value;
 
-            // Re-render tasks to reflect the changes
-            renderTasks(todayTasks);
-        });
-
-        // Delete button functionality
-        const deleteBtn = taskElement.querySelector('.delete-btn');
-        deleteBtn.addEventListener('click', () => {
-            // Find the project that contains this task
-            const project = projects.find(proj => proj.tasks.includes(task));
-
-            if (project) {
-                // Remove the task from the project
-                project.tasks.splice(taskIndex, 1);
-
-                // Save the updated projects array to local storage
                 Storage.saveProjects(projects);
 
-                // Re-render tasks to reflect the changes
-                renderTasks(todayTasks);
+                renderTasks(tasks);
+
+                document.querySelector('.edit-form').style.display = 'none';
+            };
+        });
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.classList.add('delete-btn');
+        deleteBtn.textContent = "Delete";
+        btnDiv.appendChild(deleteBtn);
+
+        deleteBtn.addEventListener('click', () => {
+            const project = projects.find(proj => proj.id == task.projectId);
+            if (project) {
+                project.tasks = project.tasks.filter(t => t.id !== task.id);
+                Storage.saveProjects(projects);
+                renderTasks(project.tasks);
             }
         });
     });
-} else {
-    const noTasksMessage = document.createElement('p');
-    noTasksMessage.textContent = 'No tasks are due today!';
-    mainContainer.appendChild(noTasksMessage);
 }
 
-    } 
-);
-
-// Helper function to check if a task is due this week
-function isTaskDueThisWeek(dueDate) {
-    const currentDate = new Date();
-    const startOfWeek = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay()));
-    const endOfWeek = new Date(currentDate.setDate(currentDate.getDate() + 6));
-
-    return new Date(dueDate) >= startOfWeek && new Date(dueDate) <= endOfWeek;
+function getTodayDate() {
+    const today = new Date();
+    return today.toISOString().split('T')[0]; 
 }
 
-// Event listener for the "This Week" tab
-document.querySelector('.week-tasks-tab').addEventListener("click", () => {
-    const tasksThisWeek = [];
+function isWithinCurrentWeek(date) {
+    const today = new Date();
+    const currentDay = today.getDay();
+    const startOfWeek = new Date(today.setDate(today.getDate() - currentDay));
+    const endOfWeek = new Date(today.setDate(today.getDate() + 6));
+
+    const taskDate = new Date(date);
+
+    return taskDate >= startOfWeek && taskDate <= endOfWeek;
+}
+
+document.querySelector('.today-tasks-tab').addEventListener("click", () => {
+    const todayTasks = [];
 
     projects.forEach(project => {
-        project.tasks.forEach(task => {
-            if (isTaskDueThisWeek(task.dueDate)) {
-                tasksThisWeek.push(task);
-            }
-        });
+        todayTasks.push(...project.tasks.filter(task => task.dueDate === getTodayDate()));
     });
 
-    // Render the filtered tasks for this week in the main container
-    renderTasks(tasksThisWeek);
+    renderTasks(todayTasks);
 });
 
-// Event listener for the "All Tasks" tab
+document.querySelector('.week-tasks-tab').addEventListener("click", () => {
+    const weekTasks = [];
+
+    projects.forEach(project => {
+        weekTasks.push(...project.tasks.filter(task => isWithinCurrentWeek(task.dueDate)));
+    });
+
+    renderTasks(weekTasks);
+});
+
 document.querySelector('.all-taks-tab').addEventListener("click", () => {
     const allTasks = [];
 
     projects.forEach(project => {
         allTasks.push(...project.tasks);
+        console.log(allTasks)
     });
 
-    // Render all tasks in the main container
     renderTasks(allTasks);
 });
 
@@ -192,23 +193,21 @@ const submitTaskBtn = document.querySelector('.add-task-btn');
 submitTaskBtn.addEventListener("click", () => {
     const title = document.querySelector('#title').value;
     const description = document.querySelector('#description').value;
-    const dueDate = document.querySelector('input[type="date"]').value;
+    const dueDate = document.querySelector('#date').value;
     const priority = document.querySelector('#priority').value;
     const projectId = document.querySelector('#project-select').value;
 
     const newTask = createTask({ id: Date.now(), title, description, dueDate, priority, projectId });
 
-    // Find the project and add the task to it
     const project = projects.find(proj => proj.id == projectId);
     if (project) {
-        project.addTaskToProject(newTask); // Add task to the project
+        project.addTaskToProject(newTask); 
 
-        // Save the updated projects array to local storage
         Storage.saveProjects(projects);
 
         console.log('New task added to project:', newTask);
 
-        // Optionally, update the UI after adding the task
+
         renderTasks(project.tasks); 
     } else {
         console.error(`Project with ID ${projectId} not found`);
@@ -225,7 +224,7 @@ addProjectBtn.addEventListener("click", () => {
     addProjectInSelector();
     addProjectInContainer();
 
-    // Save the updated projects array to local storage
+
     Storage.saveProjects(projects);
 });
 
@@ -260,24 +259,19 @@ function addProjectInContainer() {
         projectIcon.classList.add('fa-solid', 'fa-trash');
         projectDiv.appendChild(projectIcon);
 
-        // Add event listener to each project div
+
         projectDiv.addEventListener('click', () => {
-            renderTasks(project.tasks);  // Render tasks for the clicked project
+            renderTasks(project.tasks);  
         });
 
-        // Add event listener to the trash icon
         projectIcon.addEventListener('click', (event) => {
-            event.stopPropagation(); // Prevent the click from triggering the projectDiv click event
-            
-            // Confirm deletion
+            event.stopPropagation(); 
+        
             if (confirm(`Are you sure you want to delete the project "${project.title}"?`)) {
-                // Remove the project from the array
                 projects.splice(index, 1);
                 
-                // Save the updated projects array to local storage
                 Storage.saveProjects(projects);
 
-                // Update the UI
                 addProjectInSelector();
                 addProjectInContainer();
             }

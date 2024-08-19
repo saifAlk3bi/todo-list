@@ -13,6 +13,7 @@ function createTask(taskData) {
 
 function deleteTask(tasks, taskId) {
   return tasks.filter(task => task.id !== taskId);
+  document.q
 }
 
 export default createTask

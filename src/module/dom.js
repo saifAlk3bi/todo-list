@@ -6,6 +6,8 @@ document.querySelector(".add-task-tab").addEventListener("click",() => {
 document.querySelector(".task-form-cancle").addEventListener("click",() => {
     let addTaskForm = document.querySelector('.add-new-task-form')
     addTaskForm.style.display = "none"
+    let editForm = document.querySelector('.edit-form')
+    editForm.style.display = "none"
 })
 document.querySelector(".add-new-project").addEventListener("click",() => {
     let addProjectForm = document.querySelector('.add-project-form')
@@ -24,7 +26,11 @@ document.querySelector('.add-task-btn').addEventListener("click",() => {
 document.querySelector('.add-project-btn').addEventListener("click",() => {
     let addProjectForm = document.querySelector('.add-project-form')
     addProjectForm.style.display = "none"
-})
 
+})
+document.querySelector('.task-edit-cancle').addEventListener("click",() => {
+    let taskEditTask = document.querySelector('.edit-form')
+    taskEditTask.style.display = "none"
+})
 }
 export default dom
